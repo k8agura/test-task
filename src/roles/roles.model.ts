@@ -1,17 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { BelongsToMany, Column, DataType, Model, Table } from "sequelize-typescript";
-import { Role } from "src/roles/roles.model";
-import { UserRoles } from "src/roles/user-roles.model";
+import { User } from "src/users/users.model";
+import { UserRoles } from "./user-roles.model";
 
-interface UserCreationAttrs {
-    email: string;
-    password: string;
+interface RoleCreationAttrs {
+    value: string;
+    description: string;
 }
 
 @Table({
     tableName: 'users'
 })
-export class User extends Model<User, UserCreationAttrs> {
+export class Role extends Model<Role, RoleCreationAttrs> {
 
     @ApiProperty({example: '1', description: 'Уникальный индетификатор'})
     @Column({
@@ -22,21 +22,21 @@ export class User extends Model<User, UserCreationAttrs> {
     })
     id: number;
 
-    @ApiProperty({example: 'user@user-mail.ru', description: 'Почтовый адрес пользователя'})
+    @ApiProperty({example: 'Admin', description: 'Уникальное значение пользователя'})
     @Column({
         type: DataType.STRING,
         unique: true,
         allowNull: false
     })
-    email: string;
+    value: string;
 
-    @ApiProperty({example: '12345', description: 'Пароль пользователя'})
+    @ApiProperty({example: 'Администратор', description: 'Описание роли'})
     @Column({
         type: DataType.STRING,
         allowNull: false
     })
-    password: string;
+    description: string;
 
-    @BelongsToMany(() => Role, () => UserRoles)
-    roles: Role[];
+    @BelongsToMany(() => User, () => UserRoles)
+    users: User[];
 }
