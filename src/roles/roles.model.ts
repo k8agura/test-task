@@ -9,7 +9,7 @@ interface RoleCreationAttrs {
 }
 
 @Table({
-    tableName: 'users'
+    tableName: 'roles'
 })
 export class Role extends Model<Role, RoleCreationAttrs> {
 
